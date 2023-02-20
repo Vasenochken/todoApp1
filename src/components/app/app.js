@@ -15,7 +15,7 @@ export default class App extends Component {
     };
   }
 
-  // maxId = 100;
+  maxId = 100;
 
   onItemAdded = (text) => {
     const newItem = {
