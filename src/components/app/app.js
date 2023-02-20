@@ -85,13 +85,8 @@ export default class App extends Component {
   clear = () => {
     this.setState(({ todoData }) => {
       const newArr = todoData.filter((elem) => elem.done !== true);
-      if (newArr.length > 0)
         return {
           todoData: newArr,
-        };
-      else
-        return {
-          todoData: [],
         };
     });
   };
