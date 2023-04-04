@@ -4,7 +4,7 @@ import NewTaskForm from '../new-task-form/new-task-form.js';
 import TaskList from '../task-list/task-list.js';
 import Footer from '../footer/footer.js';
 
-import './app.css';
+// import './app.css';
 
 export default class App extends Component {
   constructor(props) {
@@ -13,16 +13,16 @@ export default class App extends Component {
       todoData: [],
       filter: 'all',
     };
+    this.maxId = 100
   }
 
-  maxId = 100;
-
-  onItemAdded = (text) => {
+  onItemAdd = (text,min,sec) => {
     const newItem = {
       label: text,
       done: false,
       date: new Date(),
       id: this.maxId++,
+      timer: +min * 60 + +sec,
     };
     this.setState(({ todoData }) => {
       const newArr = [...todoData];
@@ -93,9 +93,8 @@ export default class App extends Component {
 
   render() {
     return (
-      <div className="bdy">
         <section className="todoApp">
-          <NewTaskForm onItemAdded={this.onItemAdded} />
+          <NewTaskForm onItemAdd={this.onItemAdd} />
           <section className="main">
             <TaskList
               todoData={this.filterItems(this.state.todoData, this.state.filter)}
@@ -111,7 +110,6 @@ export default class App extends Component {
             />
           </section>
         </section>
-      </div>
     );
   }
 }

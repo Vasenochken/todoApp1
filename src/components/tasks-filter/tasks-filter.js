@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import './tasks-filter.css';
+// import './tasks-filter.css';
 
 export default class TaskFilter extends Component {
   buttons = [

@@ -2,7 +2,7 @@ import { Component } from 'react';
 
 import Task from '../task/task';
 
-import './task-list.css';
+// import './task-list.css';
 
 export default class TaskList extends Component {
   render() {
@@ -18,6 +18,7 @@ export default class TaskList extends Component {
               done={item.done}
               edit={item.edit}
               date={item.date}
+              timer={item.timer}
               onDeleted={() => onDeleted(item.id)}
               onCompleted={onCompleted}
               updateEdit={updateEdit}

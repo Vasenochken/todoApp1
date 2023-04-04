@@ -1,43 +1,40 @@
 import { formatDistanceToNow } from 'date-fns';
 import { Component } from 'react';
-import './task.css';
+import Timer from '../timer/timer';
 
 export default class Task extends Component {
-  state = {
-    label: '',
-    edit: false,
-  };
+  constructor(props) {
+    super()
+    this.state = {
+      label: '',
+      edit: false,
+    }
+  }
 
-  onEdited = () => {
-    console.log(this.state);
+  onEdited() {
     this.setState({
       edit: true,
       label: this.props.label,
     });
-    console.log(this.props.label);
   };
 
-  changeLabel = (event) => {
+  changeLabel(event) {
     this.setState({
       label: event.target.value,
     });
   };
 
-  onSubmitEdit = (event) => {
+  onSubmitEdit(event) {
     event.preventDefault();
     const { updateEdit, id } = this.props;
     const text = this.state.label;
-    // console.log('//////////////////');
-    // console.log("onSubID: " + this.props.id);
-    // console.log("TaskLABEL: "+ this.state.label);
-    // console.log("TaskLABEL: "+ text);
     updateEdit(id, text);
     this.setState({
       label: '',
       edit: false,
     });
   };
-
+  
   render() {
     const { label, done, id, date, onDeleted, onCompleted } = this.props;
     let dateCreated = formatDistanceToNow(date, { includeSeconds: true, addSuffix: true });
@@ -60,8 +57,11 @@ export default class Task extends Component {
             }}
           ></input>
           <label htmlFor={id}>
-            <span className="description">{label}</span>
-            <span className="created">{dateCreated}</span>
+            <span className="title">{label}</span>
+            <span className="description">
+                <Timer initialTime={this.props.timer} done={done}/>
+            </span>
+            <span className="description">{dateCreated}</span>
           </label>
           <button className="icon icon-edit" onClick={this.onEdited}></button>
           <button className="icon icon-destroy" onClick={onDeleted}></button>

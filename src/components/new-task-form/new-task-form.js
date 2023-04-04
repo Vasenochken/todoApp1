@@ -1,45 +1,60 @@
 import { Component } from 'react';
-import './new-task-form.css';
+// import './new-task-form.css';
 
 export default class NewTaskForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       label: '',
+      min: '',
+      sec: '',
     };
   }
 
-  onLabelChange = (event) => {
-    this.setState({
-      label: event.target.value,
-    });
-  };
-
-  onSubmit = (event) => {
-    event.preventDefault();
-
-    if (this.state.label.trim()) this.props.onItemAdded(this.state.label);
-    else alert('O_0ps! You didn`t finish the task');
-
-    this.setState({
-      label: '',
-    });
-  };
+  onEnter = (event) => {
+    if(event.key === 'Enter' && this.state.label.trim()) {
+      console.log('onEnter: sendState: ', this.state)
+      this.props.onItemAdd(this.state.label, this.state.min, this.state.sec)
+      this.setState({
+        label: '',
+        min: '',
+        sec: '',
+      })
+    }
+  }
 
   render() {
     return (
       <header className="app-header">
         <h1 className="app-title">todos</h1>
-        <form className="new-task-form" onSubmit={this.onSubmit}>
+        <form className="new-todo-form" onKeyUp={this.onEnter}>
           <input
             className="new-todo"
             placeholder="What needs to be done?"
-            onChange={this.onLabelChange}
+            onChange={(e) => this.setState({label: e.target.value})}
             value={this.state.label}
             autoFocus
           ></input>
-        </form>
+          <input 
+            className="new-todo-form__timer"
+            placeholder="Min" 
+            onChange={(e) => this.setState({min: e.target.value})}
+            value={this.state.min}
+            type="number"
+            min={0}
+            autoFocus
+          ></input>
+          <input 
+            className="new-todo-form__timer"
+            placeholder="Sec"
+            onChange={(e) => this.setState({sec: e.target.value})}
+            value={this.state.sec}
+            type="number"
+            min={0}
+            autoFocus
+          ></input>
+          </form>
       </header>
     );
-  }
+}
 }
