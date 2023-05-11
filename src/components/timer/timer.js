@@ -1,50 +1,45 @@
-import React, { Component } from "react";
+import { useEffect, useState } from "react";
 
-class Timer extends Component {
-  constructor(props) {
-    super(props);
+const Timer = ({ initialTime }) => {
+  const [time, setTime] = useState(initialTime);
+  const [isRunning, setIsRunning] = useState(false);
 
-    this.state = {
-      time: this.props.initialTime,
-      isRunning: false,
-      done: this.props.done,
-    };
-  }
-
-  startTimer = () => {
-    if (!this.state.isRunning) {
-      this.timer = setInterval(() => {
-        if (this.state.time > 0) {
-          this.setState({ time: this.state.time - 1 });
-        } else {
-          clearInterval(this.timer);
-          this.setState({ isRunning: false });
-        }
+  useEffect(() => {
+    let intervalId;
+    if (isRunning && time > 0) {
+      intervalId = setInterval(() => {
+        setTime(time - 1);
       }, 1000);
-
-      this.setState({ isRunning: true });
     }
+    return () => clearInterval(intervalId);
+  }, [isRunning, time]);
+
+  const startTimer = () => {
+    setIsRunning(true);
   };
 
-  pauseTimer = () => {
-    clearInterval(this.timer);
-    this.setState({ isRunning: false });
+  const pauseTimer = () => {
+    setIsRunning(false);
   };
 
-  render() {
-    const { time, isRunning } = this.state;
+  let minutes = Math.floor(time / 60);
+  let seconds = time % 60;
 
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-
-    return (
-      <>
-        <button className="icon icon-play" onClick={this.startTimer} disabled={isRunning}></button>
-        <button className="icon icon-pause" onClick={this.pauseTimer} disabled={!isRunning}></button>
-        {` ${minutes}:${seconds}`}
-      </>
-    )
-  }
-}
+  return (
+    <>
+      <button
+        className="icon icon-play"
+        onClick={startTimer}
+        disabled={isRunning}
+      ></button>
+      <button
+        className="icon icon-pause"
+        onClick={pauseTimer}
+        disabled={!isRunning}
+      ></button>
+      {` ${minutes}:${seconds}`}
+    </>
+  );
+};
 
 export default Timer;

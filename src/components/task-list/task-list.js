@@ -1,31 +1,25 @@
-import { Component } from 'react';
+import Task from "../task/task";
 
-import Task from '../task/task';
+const TaskList = ({ todoData, deleteItem, completeItem, updateEdit }) => {
+  return (
+    <ul className="todo-list">
+      {todoData.map(({ ...item }) => {
+        return (
+          <Task
+            key={item.id}
+            id={item.id}
+            label={item.label}
+            done={item.done}
+            date={item.date}
+            timer={item.timer}
+            deleteItem={() => deleteItem(item.id)}
+            completeItem={completeItem}
+            updateEdit={updateEdit}
+          />
+        );
+      })}
+    </ul>
+  );
+};
 
-// import './task-list.css';
-
-export default class TaskList extends Component {
-  render() {
-    const { todoData, onDeleted, onCompleted, updateEdit } = this.props;
-    return (
-      <ul className="todo-list">
-        {todoData.map(({ ...item }) => {
-          return (
-            <Task
-              key={item.id}
-              id={item.id}
-              label={item.label}
-              done={item.done}
-              edit={item.edit}
-              date={item.date}
-              timer={item.timer}
-              onDeleted={() => onDeleted(item.id)}
-              onCompleted={onCompleted}
-              updateEdit={updateEdit}
-            />
-          );
-        })}
-      </ul>
-    );
-  }
-}
+export default TaskList;
